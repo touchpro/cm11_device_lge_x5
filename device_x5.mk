@@ -24,6 +24,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 # Specific overlay
 DEVICE_PACKAGE_OVERLAYS += device/lge/x5/overlay
 
+#
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.product.device=x5 \
+    ro.product.model=LGLS740
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
@@ -91,8 +96,8 @@ PRODUCT_COPY_FILES += \
     device/lge/x5/prebuilt/etc/libnfc-nxp.conf:system/etc/libnfc-nxp.conf \
     device/lge/x5/prebuilt/etc/nfcee_access.xml:system/etc/nfcee_access.xml \
     device/lge/x5/prebuilt/etc/quipc.conf:system/etc/quipc.conf \
-    device/lge/x5/prebuilt/etc/init.d/10nfc_checker:system/etc/init.d/10nfc_checker \
-
+    device/lge/x5/prebuilt/etc/init.d/10lightfixer:system/etc/init.d/10lightfixer \
+    
 # Ramdisk
 PRODUCT_COPY_FILES += \
     device/lge/x5/rootdir/fstab.x5:root/fstab.x5 \
@@ -131,6 +136,9 @@ PRODUCT_PACKAGES += \
     libqcomvisualizer \
     libqcompostprocbundle \
     libqcomvoiceprocessing \
+    libaudioroute \
+    libtinyalsa \
+    libtinycompress \
     tinycap \
     tinymix \
     tinypcminfo \
@@ -149,7 +157,8 @@ PRODUCT_PACKAGES += \
     libbson \
     libcurl \
     tcpdump \
-    Torch
+    Torch \
+    libxml2
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -179,6 +188,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     p2p_supplicant_overlay.conf \
     wpa_supplicant_overlay.conf \
+    libwpa_client \
+    hostapd \
+    wpa_supplicant \
+    wpa_supplicant.conf \
     libwcnss_qmi \
 
 # Charger
@@ -209,8 +222,8 @@ PRODUCT_PACKAGES += \
     copybit.msm8226\
     gralloc.msm8226 \
     hwcomposer.msm8226 \
-    keystore.msm8226 \
     lights.msm8226 \
+    nfc.msm8226 \
     memtrack.msm8226 \
     power.msm8226
 
@@ -358,14 +371,23 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.modem.no_wdog_chk=1 \
     persist.call_recording.enabled=1
 
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp
+
 # NFC packages
 PRODUCT_PACKAGES += \
-    NfcNci \
+    libnfc \
+    libnfc_ndef \
+    libnfc_jni \
+    Nfc \
     Tag \
-    nfc_nci.pn54x.default \
     com.android.nfc_extras
 
 NFCEE_ACCESS_PATH := device/lge/x5/prebuilt/etc/nfcee_access.xml
+
+# Keyhandler
+PRODUCT_PACKAGES += \
+    com.cyanogenmod.keyhandler
 
 # QC time services
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -375,6 +397,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.ksm.default=1
 
+# NFC build properties
+PRODUCT_PROPERTY_OVERRIDES += \
+	debug.nfc.fw_download=true \
+	debug.nfc.fw_boot_download=false \
+	debug.nfc.se=true \
+	ro.nfc.port=I2C
+
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
 PRODUCT_LOCALES := en_US
@@ -383,4 +412,5 @@ PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 $(call inherit-product, vendor/lge/x5/x5-vendor.mk)
+
 

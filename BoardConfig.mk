@@ -24,13 +24,6 @@
 USE_CAMERA_STUB := false
 TARGET_NO_BOOTLOADER := true
 
-TARGET_SPECIFIC_HEADER_PATH += device/lge/x5/include
-
-# Vendor Init
-TARGET_UNIFIED_DEVICE := true
-TARGET_INIT_VENDOR_LIB := libinit_msm
-TARGET_LIBINIT_DEFINES_FILE := device/lge/x5/init/init_x5.c
-
 # Platform
 TARGET_ARCH := arm
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
@@ -43,6 +36,9 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_BOOTLOADER_BOARD_NAME := x5
+
+TARGET_SCREEN_HEIGHT := 960
+TARGET_SCREEN_WIDTH := 540
 
 # Kernel image
 BOARD_KERNEL_SEPARATED_DT := true
@@ -58,9 +54,8 @@ TARGET_REQUIRES_BUMP := true
 # Global flags
 COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DLG_CAMERA_HARDWARE
 
-# QCOM BSP
-TARGET_USES_QCOM_BSP := true
-COMMON_GLOBAL_CFLAGS += -DQCOM_BSP
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
 
 # Audio
 AUDIO_FEATURE_DISABLED_FM := false
@@ -78,6 +73,10 @@ TARGET_QCOM_MEDIA_VARIANT := caf-new
 
 # GPS
 TARGET_NO_RPC := true
+
+# QCOM BSP
+TARGET_USES_QCOM_BSP := true
+COMMON_GLOBAL_CFLAGS += -DQCOM_BSP
 
 # Graphics
 BOARD_EGL_CFG := device/lge/x5/prebuilt/egl.cfg
@@ -104,6 +103,9 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
 
+# RIL
+BOARD_RIL_CLASS := ../../../device/lge/x5/ril/
+
 # Wifi
 BOARD_HAS_QCOM_WLAN := true
 BOARD_WLAN_DEVICE := qcwcn
@@ -126,9 +128,6 @@ BOARD_USES_QCOM_HARDWARE := true
 
 # QCOM enhanced A/V
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
-
-# RIL
-BOARD_RIL_CLASS := ../../../device/lge/x5/ril/
 
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
@@ -154,7 +153,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # TWRP Recovery
-TARGET_RECOVERY_FSTAB := device/lge/x5/recovery.fstab
+TARGET_RECOVERY_FSTAB := device/lge/x5/rootdir/recovery.fstab
 RECOVERY_FSTAB_VERSION := 2
 DEVICE_RESOLUTION := 540x960
 TW_FLASH_FROM_STORAGE := true
@@ -179,8 +178,7 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_NO_REBOOT_BOOTLOADER := true
 RECOVERY_SDCARD_ON_DATA := true
 
-# Nfc
-BOARD_NFC_CHIPSET := pn547
+BOARD_NFC_CHIPSET := pn544
 
 # SELinux
 BOARD_SEPOLICY_DIRS += \
@@ -207,7 +205,7 @@ BOARD_SEPOLICY_UNION += \
 	mpdecision.te \
 	netd.te \
 	netmgrd.te \
-	nfc.te \
+        nfc.te \
 	property_contexts \
 	property.te \
 	qcom.te \
@@ -232,4 +230,3 @@ BOARD_SEPOLICY_UNION += \
 ifneq ($(TARGET_BUILD_VARIANT),user)
 	BOARD_SEPOLICY_UNION += su.te
 endif
-
