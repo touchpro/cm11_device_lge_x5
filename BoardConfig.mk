@@ -24,6 +24,8 @@
 USE_CAMERA_STUB := false
 TARGET_NO_BOOTLOADER := true
 
+TARGET_SPECIFIC_HEADER_PATH := device/lge/x5/include
+
 # Platform
 TARGET_ARCH := arm
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
