@@ -125,6 +125,11 @@ PRODUCT_COPY_FILES += \
     device/lge/x5/rootdir/sbin/bbx:root/sbin/bbx \
     device/lge/x5/rootdir/fscheck.sh:root/fscheck.sh
 
+# Offmode Charging
+PRODUCT_PACKAGES += \
+    charger_res_x5 \
+    charger_x5
+
 # Audio
 PRODUCT_PACKAGES += \
     audio.primary.msm8226 \
@@ -318,7 +323,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Media
 PRODUCT_PROPERTY_OVERRIDES += \
-    lpa.decode=false \
+    lpa.decode=true \
     qcom.hw.aac.encoder=true \
     af.resampler.quality=255 \
     persist.audio.lowlatency.rec=false
@@ -408,9 +413,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
 PRODUCT_LOCALES := en_US
-PRODUCT_LOCALES += hdpi
-PRODUCT_AAPT_CONFIG := normal hdpi
-PRODUCT_AAPT_PREF_CONFIG := hdpi
+PRODUCT_LOCALES += xhdpi
+PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 $(call inherit-product, vendor/lge/x5/x5-vendor.mk)
 
